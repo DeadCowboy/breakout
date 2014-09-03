@@ -15,6 +15,7 @@
 
 		<!-- STYLES -->
         <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
 		<link rel="stylesheet" href="css/main.min.css">
 
 		<!-- MODERNIZR -->
@@ -27,8 +28,22 @@
 		<div id="main">
 		
 			<div id="main-container">
+
+				<div id="controller">
+					<i class="fa fa-gamepad fa-6x"></i>
+				</div>
 				
-				MOVE ME SIDE TO SIDE
+				<div id="overlay">
+
+					<form id="gameIdForm">
+						<label for="gameId">
+							Enter Your Game ID:
+						</label>
+						<input id="gameId" name="gameId" type="text" pattern="[0-9]{5}" placeholder="Game ID" required>
+						<button id="submit" type="submit">Submit</button>
+					</form>
+
+				</div>
 
 			</div>
 		

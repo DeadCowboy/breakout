@@ -17,8 +17,11 @@
 @color-heading: #333;
 @color-subheading: #666;
 @color-body: #666;
+@color-border: #fff;
 @color-button: #666;
 @color-hover: #999;
+@color-overlay-heading: #ccc;
+@color-overlay-body: #fff;
 
 
 /* MIXINS */
@@ -71,6 +74,14 @@
 	background: linear-gradient( @dir, @color0, @color1 );
 }
 
+.border-rounded( @radius: 10px ) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    -ms-border-radius: @radius;
+    -o-border-radius: @radius;
+    border-radius: @radius;
+}
+
 
 /* * * * * STYLES * * * * */
 *, body, html, header, footer, div, span {
@@ -120,7 +131,7 @@ div[class*=heading] h3 {
 }
 
 
-/* GENERAL */
+/* * * * * GENERAL * * * * */
 body {
 	background-color: @bgcolor-footer;
 	.bg-gradient( top, @bgcolor-top, @bgcolor-bottom );
@@ -143,6 +154,7 @@ header {
 }
 
 #main-container {
+	position: relative;
 	margin: 0px auto @unit2x auto;
 	width: 100%;
 	max-width: @width;
@@ -166,15 +178,80 @@ footer {
 	}
 }
 
+
 /* * * * * CANVAS * * * * */
 #stage {
-	border: 1px solid #fff;
+	border: 1px solid @color-border;
 	background: #ccc;
+}
+
+
+/* * * * * CONTROLLER * * * * */
+#controller {
+
+	color: #bfbfbf;
+	line-height: 0em;
+	text-align: center;
+
+	.fa-6x {
+		font-size: 360px;
+	}
 
 }
 
+
+/* * * * * OVERLAY * * * * */
+#overlay {
+	position: absolute;
+	top: 0px;
+	left: 10%;
+	margin: 0 auto;
+	margin-top: @unit2x * 4;
+	border: 1px solid @color-border;
+	padding-top: @unit2x * 4;
+	padding-bottom: @unit2x * 4;
+	width: 80%;
+	background-color: @bgcolor-container;
+
+	form {
+		text-align: center;
+	}
+
+	label {
+		display: block;
+	}
+
+	input {
+		.font-body;
+		display: block;
+		margin: 0 auto @unit;
+		width: 50%;
+		color: @color-heading;
+		font-size: 24px;
+		text-align: center;
+	}
+
+	p {
+		.font-body;
+		font-size: 48px;
+		color: @color-overlay-body;
+		text-align: center;
+	}
+
+	button {
+		margin: 0 auto @unit;
+		border: 1px solid #999;
+		padding: @unit/2 @unit @unit/2 @unit;
+		width: 80px;
+		text-align: center;
+		.border-rounded( @unit );
+	}
+}
+
+
 /* * * * * DEBUG OUTPUT * * * * */
 #output {
+	display: none;
 	position: fixed;
 	bottom: 0px;
 	left: 0px;

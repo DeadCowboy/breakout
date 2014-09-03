@@ -2,6 +2,7 @@
 (function () {
 
 	// ----- VARS ----- //
+	var gameId;
 	var game;
 	var canvas;
 	var dir;
@@ -11,28 +12,40 @@
 	
 	
 	// ----- CONSTANTS ----- //
-	var THRESHOLD = 200;
+	var SERVER = window.location.hostname + ":3000";
+
 	
 	// ----- FUNCTIONS ----- //
 	function init() {
 		console.log( "init" );
 		
+		// Vars
+		dir = 0;
+		gameId = Math.floor( Math.random() * 89999 ) + 10000;
+
 		// Canvas
 		canvas = document.getElementById( "stage" );
 		game = new BREAKOUT.Game( canvas );
-		game.startGame();
-		dir = 0;
-		
-		// Request Animation Frame
-		req = requestAnimationFrame( onAnimationFrame );
-		
+
+		// Overlay
+		showOverlay();
+
 		// Connect to Input Device
 		//connectMouse();
-		connectHandset();		
+		connectHandset();
 		
+	};
+
+	function startGame() {
+		console.log( "startGame" );
+
+		game.startGame();
+		req = requestAnimationFrame( onAnimationFrame );
+
 	};
 	
 	function connectMouse() {
+		console.log( "connectMouse" );
 		
 		$("#stage").on( "click", onMouseClick );
 		$(window).on( "mousemove", onMouseMove );		
@@ -40,25 +53,53 @@
 	};
 	
 	function connectHandset() {
+		console.log( "connectHandset -> " + SERVER );
 	
-		socket = io.connect( "http://10.192.132.127:3000" );
+		socket = io.connect( SERVER );
 		socket.on( "connect" , function () {
 			
+			socket.emit( "gameInit", { id:gameId } );
+
+			socket.on( "sync", function( data ) {
+				console.log( "onCtrlSync" );
+
+				startGame();
+				hideOverlay();
+
+			} );
+
 			socket.on( "click", function( data ) {
+				console.log( "onCtrlClick" );
 			
 				game.launch();
 			
-			});
+			} );
 			
 			socket.on( "move", function( data ) {
 			
 				dir = data.beta * 0.3;
 			
-			});
+			} );
 			
-		});
+		} );
 	
 	};
+
+	function showOverlay() {
+		console.log( "showOverlay" );
+
+		$("#overlay").show();
+		$("#overlay p").text( gameId );
+
+	};
+
+	function hideOverlay() {
+		console.log( "hideOverlay" );
+
+		$("#overlay").hide();
+		
+	};
+
 	
 	// ----- EVENT LISTENERS ----- //
 	function onReady() {
@@ -72,6 +113,7 @@
 	
 	};
 	
+	// ----- MOUSE EVENT LISTENERS ----- //
 	function onMouseClick( e ) {
 		console.log( "onMouseClick" );
 	
@@ -85,6 +127,15 @@
 		dir = ( e.clientX - centerX ) * 0.01;
 	
 	};	
+
+	// ----- CTRL EVENT LISTENERS ----- //
+	function onCtrlClick( data ) {
+		// TBD
+	};
+
+	function onCtrlMove( data ) {
+		// TBD
+	};
 	
 	// ----- INIT ----- //
 	$(document).ready( onReady );

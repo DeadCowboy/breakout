@@ -1,0 +1,19 @@
+{
+	"name": "breakout",
+	"description": "HTML5 Breakout Game that connects Desktop Game Client to Mobile Controller Client",
+	"version": "0.0.1",
+	"private": true,
+	"contributors": [ 
+		{
+			"name": "Richard Nelson",
+			"email": "sc2071@gmail.com"
+		}
+	],
+	"dependencies": {
+		"express": "3.x",
+		"socket.io": "~0.9.6"
+	},
+	"scripts": {
+		"start": "node app"
+	}
+}
